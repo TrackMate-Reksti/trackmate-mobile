@@ -36,19 +36,19 @@ class _SplashPageState extends State<SplashPage> {
               margin: const EdgeInsets.only(
                 bottom: 24,
               ),
-              width: 130,
-              height: 150,
+              height: 80,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/logo.png'),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
             Text(
-              'Curanmore?\nNo More',
+              'Curanmore? No More',
               textAlign: TextAlign.center,
               style: whiteText.copyWith(
-                fontSize: 40,
+                fontSize: 16,
                 fontWeight: bold,
               ),
             ),

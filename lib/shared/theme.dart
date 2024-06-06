@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Colors
 Color purpleColor = const Color(0xFF312ECB);
 Color redColor = const Color(0xFFEB4335);
+Color blackColor = const Color.fromARGB(255, 4, 2, 77);
 Color darkGreyColor = const Color(0xFF757575);
 Color whiteColor = Colors.white;
 
@@ -11,6 +12,7 @@ Color whiteColor = Colors.white;
 TextStyle purpleText = GoogleFonts.plusJakartaSans(color: purpleColor);
 TextStyle darkGreyText = GoogleFonts.plusJakartaSans(color: darkGreyColor);
 TextStyle whiteText = GoogleFonts.plusJakartaSans(color: whiteColor);
+TextStyle blackText = GoogleFonts.plusJakartaSans(color: blackColor);
 
 // Font Weights
 FontWeight light = FontWeight.w300;

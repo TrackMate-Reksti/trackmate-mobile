@@ -24,6 +24,8 @@ class _TrackerPageState extends State<TrackerPage> {
   String selectedMotocycle = 'All';
   List<MotocycleModel> motoCycles = [];
   Set<Marker> _markers = {};
+  double aveLat = 0;
+  double aveLong = 0;
 
   @override
   void initState() {
@@ -33,6 +35,7 @@ class _TrackerPageState extends State<TrackerPage> {
         UserModel user = UserModel.fromJson(snapshot.data()!, snapshot.id);
         motoCycles = user.motocycles;
         _updateMarkers();
+        _getAverageCoordinate();
       }
     });
   }
@@ -99,18 +102,12 @@ class _TrackerPageState extends State<TrackerPage> {
                     await _mapsController.future;
 
                 if (selectedMotocycle == 'All') {
-                  double sumLat = 0;
-                  double sumLong = 0;
-                  for (var motoCycle in motoCycles) {
-                    sumLat += motoCycle.lat;
-                    sumLong += motoCycle.long;
-                  }
+                  _getAverageCoordinate();
 
                   controller?.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                        target: LatLng(sumLat / motoCycles.length,
-                            sumLong / motoCycles.length),
+                        target: LatLng(aveLat, aveLong),
                         zoom: 15,
                       ),
                     ),
@@ -136,9 +133,9 @@ class _TrackerPageState extends State<TrackerPage> {
                   GoogleMap(
                     zoomControlsEnabled: true,
                     zoomGesturesEnabled: true,
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(-6.892267812573147, 107.61015355771369),
-                      zoom: 16,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(aveLat, aveLong),
+                      zoom: 15,
                     ),
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
@@ -221,5 +218,17 @@ class _TrackerPageState extends State<TrackerPage> {
         },
       ).toSet();
     });
+  }
+
+  void _getAverageCoordinate() {
+    double sumLat = 0;
+    double sumLong = 0;
+    for (var motoCycle in motoCycles) {
+      sumLat += motoCycle.lat;
+      sumLong += motoCycle.long;
+    }
+
+    aveLat = sumLat / motoCycles.length;
+    aveLong = sumLong / motoCycles.length;
   }
 }
