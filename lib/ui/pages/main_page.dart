@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackmate/shared/theme.dart';
 import 'package:trackmate/ui/pages/home_page.dart';
+import 'package:trackmate/ui/pages/tracker_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -42,50 +43,29 @@ class _MainPageState extends State<MainPage> {
         BottomNavigationBarItem(
           icon: Container(
             margin: const EdgeInsets.only(top: 8, bottom: 4),
-            child: Image.asset(
-              'assets/monitor_icon.png',
+            child: Icon(
+              Icons.home_outlined,
               color: currentIndex == 0 ? purpleColor : darkGreyColor,
-              width: 21,
             ),
           ),
-          label: 'Monitor',
+          label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Container(
             margin: const EdgeInsets.only(top: 8, bottom: 4),
-            child: Image.asset(
-              'assets/route_icon.png',
+            child: Icon(
+              Icons.gps_fixed_outlined,
               color: currentIndex == 1 ? purpleColor : darkGreyColor,
-              width: 20,
             ),
           ),
-          label: 'Route',
-        ),
-        const BottomNavigationBarItem(
-          icon: Visibility(
-            visible: false,
-            child: SizedBox(),
-          ),
-          label: '',
+          label: 'Tracker',
         ),
         BottomNavigationBarItem(
           icon: Container(
             margin: const EdgeInsets.only(top: 8, bottom: 4),
-            child: Image.asset(
-              'assets/report_icon.png',
-              color: currentIndex == 3 ? purpleColor : darkGreyColor,
-              width: 20,
-            ),
-          ),
-          label: 'Report',
-        ),
-        BottomNavigationBarItem(
-          icon: Container(
-            margin: const EdgeInsets.only(top: 8, bottom: 4),
-            child: Image.asset(
-              'assets/account_icon.png',
-              color: currentIndex == 4 ? purpleColor : darkGreyColor,
-              width: 18,
+            child: Icon(
+              Icons.person_outline_outlined,
+              color: currentIndex == 2 ? purpleColor : darkGreyColor,
             ),
           ),
           label: 'Account',
@@ -99,10 +79,8 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return const HomePage();
       case 1:
-        return const HomePage();
+        return const TrackerPage();
       case 2:
-        return const HomePage();
-      case 3:
         return const HomePage();
       default:
         return const HomePage();

@@ -3,6 +3,8 @@
         android:label="trackmate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBST8wA2mvHqI0K5W_kexraJU2_IwqybRE"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

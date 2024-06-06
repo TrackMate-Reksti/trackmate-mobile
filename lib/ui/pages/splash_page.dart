@@ -13,21 +13,7 @@ class _SplashPageState extends State<SplashPage> {
   // Init state to fetch the application data when start the apps
   getInit() async {
     Timer(const Duration(seconds: 3), () async {
-      // Import Providers
-      // DeviceProvider deviceProvider =
-      //     Provider.of<DeviceProvider>(context, listen: false);
-      // // Init final context
-      // final navigator = Navigator.of(context);
-
-      // // Check if the device have connected
-      // await deviceProvider.getSerialNumber();
-      // if (deviceProvider.deviceSerialNumber == '') {
-      //   navigator.pushNamedAndRemoveUntil('/start', (route) => false);
-      // } else {
-      //   await deviceProvider.getDeviceData();
-      //   navigator.pushNamedAndRemoveUntil('/main', (route) => false);
-      // }
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/main');
     });
   }
 
@@ -40,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: purpleColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
             Text(
               'Curanmore?\nNo More',
               textAlign: TextAlign.center,
-              style: darkGreyText.copyWith(
+              style: whiteText.copyWith(
                 fontSize: 40,
                 fontWeight: bold,
               ),

@@ -1,123 +1,225 @@
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/material.dart';
+import 'dart:async';
 
-// // Import styles
-// import 'package:kiddy/shared/theme.dart';
-// import 'package:kiddy/ui/widgets/camera_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:trackmate/models/motocycle_model.dart';
+import 'package:trackmate/models/user_model.dart';
+import 'package:trackmate/shared/theme.dart';
 
-// // Import Widgets
-// import 'package:kiddy/ui/widgets/header.dart';
-// import 'package:kiddy/ui/widgets/map_view.dart';
+class TrackerPage extends StatefulWidget {
+  const TrackerPage({super.key});
 
-// // Tracker Page
-// // Conditional Page Based On Content
-// // Has 2 Content : Camera and Maps
-// class TrackerPage extends StatefulWidget {
-//   const TrackerPage({super.key});
+  @override
+  State<TrackerPage> createState() => _TrackerPageState();
+}
 
-//   @override
-//   State<TrackerPage> createState() => _TrackerPageState();
-// }
+class _TrackerPageState extends State<TrackerPage> {
+  final Completer<GoogleMapController?> _mapsController = Completer();
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc('ATc7ZHO6c7W8OwA58PpegtD3LGj2')
+          .snapshots();
+  String selectedMotocycle = 'All';
+  List<MotocycleModel> motoCycles = [];
+  Set<Marker> _markers = {};
 
-// class _TrackerPageState extends State<TrackerPage> {
-//   // Index for content
-//   int currentIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    _usersStream.listen((snapshot) {
+      if (snapshot.data() != null) {
+        UserModel user = UserModel.fromJson(snapshot.data()!, snapshot.id);
+        motoCycles = user.motocycles;
+        _updateMarkers();
+      }
+    });
+  }
 
-//   // Carousel Controller
-//   final CarouselController _controller = CarouselController();
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: _usersStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Scaffold(
+              body: Center(
+                child: Text(
+                  'Something went wrong',
+                ),
+              ),
+            );
+          }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     // Title
-//     Widget title() {
-//       return Padding(
-//         padding: const EdgeInsets.only(
-//           top: 48,
-//           right: 28,
-//           left: 28,
-//         ),
-//         child: Text(
-//           'Children Tracker',
-//           style: whiteText.copyWith(fontSize: 20, fontWeight: bold),
-//         ),
-//       );
-//     }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(
+                color: darkGreyColor,
+              )),
+            );
+          }
 
-//     // Current Content selected
-//     Widget content() {
-//       return Column(
-//         children: [
-//           Container(
-//             margin: const EdgeInsets.only(top: 24),
-//             child: CarouselSlider(
-//               items: const [
-//                 CameraView(),
-//                 MapView(),
-//               ],
-//               carouselController: _controller,
-//               options: CarouselOptions(
-//                 onPageChanged: (index, reason) {
-//                   setState(() {
-//                     currentIndex = index;
-//                   });
-//                 },
-//                 enableInfiniteScroll: false,
-//                 aspectRatio: MediaQuery.of(context).size.width /
-//                     MediaQuery.of(context).size.height *
-//                     1.5,
-//                 padEnds: false,
-//                 viewportFraction: 1,
-//               ),
-//             ),
-//           ),
-//           const SizedBox(height: 12),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: List.generate(
-//               2,
-//               (index) => GestureDetector(
-//                 onTap: () => _controller.animateToPage(index),
-//                 child: Container(
-//                   width: currentIndex == index ? 20 : 12,
-//                   height: 8,
-//                   margin: const EdgeInsets.symmetric(
-//                     vertical: 8,
-//                     horizontal: 4,
-//                   ),
-//                   decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(20),
-//                     color: currentIndex == index
-//                         ? darkYellowColor
-//                         : lightGreyColor,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       );
-//     }
+          UserModel? user;
+          List<DropdownMenuItem> dropdownItems = [];
+          if (snapshot.data!.data() != null) {
+            user =
+                UserModel.fromJson(snapshot.data!.data()!, snapshot.data!.id);
+            motoCycles = user.motocycles;
+            dropdownItems = motoCycles
+                .map((x) => DropdownMenuItem(
+                      value: x.platNumber,
+                      child: Text(x.platNumber),
+                    ))
+                .toList();
+            dropdownItems.insert(
+              0,
+              const DropdownMenuItem<String>(
+                value: 'All',
+                child: Text(
+                  'All',
+                ),
+              ),
+            );
+          }
 
-//     // render body
-//     Widget body() {
-//       return SafeArea(
-//         child: ListView(
-//           padding: const EdgeInsets.only(bottom: 100),
-//           children: [
-//             title(),
-//             content(),
-//           ],
-//         ),
-//       );
-//     }
+          return Scaffold(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
+            floatingActionButton: FloatingActionButton(
+              heroTag: UniqueKey(),
+              backgroundColor: purpleColor,
+              child: Icon(
+                Icons.gps_fixed,
+                color: whiteColor,
+              ),
+              onPressed: () async {
+                final GoogleMapController? controller =
+                    await _mapsController.future;
 
-//     return Scaffold(
-//       body: Stack(children: [
-//         Header(
-//           color: darkPinkColor,
-//         ),
-//         body()
-//       ]),
-//     );
-//   }
-// }
+                if (selectedMotocycle == 'All') {
+                  double sumLat = 0;
+                  double sumLong = 0;
+                  for (var motoCycle in motoCycles) {
+                    sumLat += motoCycle.lat;
+                    sumLong += motoCycle.long;
+                  }
+
+                  controller?.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                        target: LatLng(sumLat / motoCycles.length,
+                            sumLong / motoCycles.length),
+                        zoom: 15,
+                      ),
+                    ),
+                  );
+                } else {
+                  MotocycleModel selected = motoCycles.firstWhere(
+                      (motoCycle) => motoCycle.platNumber == selectedMotocycle);
+                  controller?.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                        target: LatLng(selected.lat, selected.long),
+                        zoom: 16,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+            body: SafeArea(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  GoogleMap(
+                    zoomControlsEnabled: true,
+                    zoomGesturesEnabled: true,
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(-6.892267812573147, 107.61015355771369),
+                      zoom: 16,
+                    ),
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    markers: user == null ? {} : _markers,
+                    onMapCreated: (GoogleMapController controller) {
+                      if (!_mapsController.isCompleted) {
+                        _mapsController.complete(controller);
+                      }
+                    },
+                  ),
+                  user == null
+                      ? const SizedBox()
+                      : Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.all(
+                            20,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: whiteColor,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${user.name}\'s Motocyles Location',
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                ),
+                                margin: const EdgeInsets.only(top: 8),
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: purpleColor.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: DropdownButton(
+                                  items: dropdownItems,
+                                  onChanged: (value) {
+                                    motoCycles = user!.motocycles;
+                                    setState(() {
+                                      selectedMotocycle = value.toString();
+                                      _updateMarkers();
+                                    });
+                                  },
+                                  value: selectedMotocycle,
+                                  menuMaxHeight: 200,
+                                  underline: const SizedBox(),
+                                  alignment: Alignment.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _updateMarkers() {
+    var filteredMotocycles = selectedMotocycle == 'All'
+        ? motoCycles
+        : motoCycles
+            .where((motocycle) => motocycle.platNumber == selectedMotocycle)
+            .toList();
+
+    setState(() {
+      _markers = filteredMotocycles.map(
+        (motocycle) {
+          return Marker(
+            markerId: MarkerId(motocycle.platNumber),
+            position: LatLng(motocycle.lat, motocycle.long),
+          );
+        },
+      ).toSet();
+    });
+  }
+}
