@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trackmate/models/user_model.dart';
 import 'package:trackmate/shared/theme.dart';
+// import 'package:trackmate/ui/pages/report_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -255,7 +256,7 @@ class HomePage extends StatelessWidget {
                                             Icons.remove,
                                             color: whiteColor,
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),

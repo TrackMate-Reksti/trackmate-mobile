@@ -6,6 +6,8 @@ Color purpleColor = const Color(0xFF312ECB);
 Color redColor = const Color(0xFFEB4335);
 Color blackColor = const Color.fromARGB(255, 4, 2, 77);
 Color darkGreyColor = const Color(0xFF757575);
+Color yellowColor = const Color(0xFFFBBC05);
+Color greenColor = const Color(0xFF4AC959);
 Color whiteColor = Colors.white;
 
 // Text Styles

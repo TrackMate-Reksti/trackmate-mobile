@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackmate/shared/theme.dart';
 import 'package:trackmate/ui/pages/home_page.dart';
+import 'package:trackmate/ui/pages/report_page.dart';
 import 'package:trackmate/ui/pages/tracker_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -81,7 +82,7 @@ class _MainPageState extends State<MainPage> {
       case 1:
         return const TrackerPage();
       case 2:
-        return const HomePage();
+        return const ReportPage();
       default:
         return const HomePage();
     }
