@@ -22,6 +22,15 @@ class MotocycleModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'plat_number': platNumber,
+      'name': name,
+      'lat': lat,
+      'long': long,
+    };
+  }
+
   @override
   List<Object?> get props => [platNumber, name, lat, long];
 }

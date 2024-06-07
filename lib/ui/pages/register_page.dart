@@ -1,40 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:trackmate/providers/auth_provider.dart';
 import 'package:trackmate/shared/theme.dart';
 import 'package:trackmate/ui/widgets/custom_form_field.dart';
 
 import '../widgets/custom_button.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
+  final TextEditingController nameController = TextEditingController(text: '');
   final TextEditingController emailController = TextEditingController(text: '');
   final TextEditingController passwordController =
+      TextEditingController(text: '');
+  final TextEditingController confirmPasswordController =
       TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    final navigator = Navigator.of(context);
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
-    void handleLogin() async {
-      try {
-        if (await authProvider.signIn(
-          email: emailController.text,
-          password: passwordController.text,
-        )) {
-          navigator.pushNamedAndRemoveUntil('/main', (route) => false);
-        }
-      } catch (e) {
-        scaffoldMessenger.showSnackBar(SnackBar(
-          content: Text(e.toString()),
-          backgroundColor: redColor,
-        ));
-      }
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -50,19 +31,38 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                "Welocome Back",
+                "Create an Account",
                 style: blackText.copyWith(fontSize: 24, fontWeight: semibold),
               ),
               Text(
-                "Sign In to Countinue",
+                "Enter your email to sign up for this app",
                 style: blackText.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 40),
+              CustomFormField(
+                hintText: 'Your Fullname',
+                textController: nameController,
+                label: 'Fullname',
+                validator: 'Fullname Required',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               CustomFormField(
                 hintText: 'Your Email',
                 textController: emailController,
                 label: 'Email',
                 validator: 'Email Required',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomFormField(
+                hintText: 'Confirm Your Password',
+                textController: confirmPasswordController,
+                label: 'Confirm Password',
+                validator: 'Confirm Password Required',
+                isPassword: true,
               ),
               const SizedBox(
                 height: 20,
@@ -78,24 +78,23 @@ class LoginPage extends StatelessWidget {
                 marginBottom: 12,
                 marginTop: 32,
                 buttonColor: purpleColor,
-                buttonText: "Sign In",
-                onPressed: handleLogin,
+                buttonText: "Sign Up",
+                onPressed: () {},
                 textStyle: whiteText,
-                isLoading: !authProvider.isLoading,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account?",
+                    "You have an account?",
                     style: darkGreyText,
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/register');
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text(
-                      "Sign Up",
+                      "Sign In",
                       style: purpleText.copyWith(
                         fontWeight: medium,
                       ),

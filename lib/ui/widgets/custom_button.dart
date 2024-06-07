@@ -9,30 +9,31 @@ class CustomButton extends StatelessWidget {
   final double marginTop;
   final double marginBottom;
   final IconData? icon;
+  final bool isLoading;
 
-  const CustomButton({
-    super.key,
-    required this.buttonColor,
-    required this.buttonText,
-    required this.textStyle,
-    required this.onPressed,
-    this.marginTop = 0,
-    this.marginBottom = 0,
-    this.icon,
-  });
+  const CustomButton(
+      {super.key,
+      required this.buttonColor,
+      required this.buttonText,
+      required this.textStyle,
+      required this.onPressed,
+      this.marginTop = 0,
+      this.marginBottom = 0,
+      this.icon,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: marginTop, bottom: marginBottom),
       width: double.infinity,
-      height: 36,
+      height: 50,
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
         child: Row(
@@ -47,13 +48,19 @@ class CustomButton extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: icon != null,
+              visible: isLoading,
+              child: const CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            ),
+            Visibility(
+              visible: icon != null || isLoading,
               child: const SizedBox(width: 8),
             ),
             Text(
               buttonText,
               style: textStyle.copyWith(
-                fontSize: 12,
+                fontSize: 16,
                 fontWeight: medium,
               ),
             ),

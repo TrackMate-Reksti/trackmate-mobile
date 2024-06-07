@@ -28,7 +28,6 @@ class _CustomFormFieldState extends State<CustomFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       style: purpleText.copyWith(
-        fontSize: 12,
         fontWeight: regular,
       ),
       obscureText: widget.isPassword ? isObscure : false,
@@ -42,19 +41,16 @@ class _CustomFormFieldState extends State<CustomFormField> {
       },
       controller: widget.textController,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(12),
+        contentPadding: const EdgeInsets.all(16),
         label: Text(widget.label),
         labelStyle: darkGreyText.copyWith(
-          fontSize: 12,
           fontWeight: regular,
         ),
         floatingLabelStyle: purpleText.copyWith(
-          fontSize: 14,
           fontWeight: medium,
         ),
         hintText: widget.hintText,
         hintStyle: darkGreyText.copyWith(
-          fontSize: 12,
           fontWeight: regular,
         ),
         suffixIcon: Visibility(
@@ -74,21 +70,21 @@ class _CustomFormFieldState extends State<CustomFormField> {
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
             color: darkGreyColor,
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
             color: purpleColor,
             width: 1,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
             color: redColor,
             width: 1,

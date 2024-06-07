@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trackmate/shared/theme.dart';
 
@@ -13,7 +14,14 @@ class _SplashPageState extends State<SplashPage> {
   // Init state to fetch the application data when start the apps
   getInit() async {
     Timer(const Duration(seconds: 3), () async {
-      Navigator.pushNamed(context, '/main');
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      final navigator = Navigator.of(context);
+
+      if (currentUser == null) {
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+      } else {
+        navigator.pushNamedAndRemoveUntil('/main', (route) => false);
+      }
     });
   }
 
