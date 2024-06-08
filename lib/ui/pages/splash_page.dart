@@ -36,31 +36,17 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: purpleColor,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: 24,
-              ),
-              height: 80,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/logo.png'),
-                  fit: BoxFit.contain,
-                ),
-              ),
+        child: Container(
+          margin: const EdgeInsets.only(
+            bottom: 24,
+          ),
+          height: 160,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/logo.png'),
+              fit: BoxFit.contain,
             ),
-            Text(
-              'Curanmore? No More',
-              textAlign: TextAlign.center,
-              style: whiteText.copyWith(
-                fontSize: 16,
-                fontWeight: bold,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

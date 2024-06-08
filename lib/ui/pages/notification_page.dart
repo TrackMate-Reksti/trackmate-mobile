@@ -31,15 +31,17 @@ class NotificationPage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          content(),
-          Header(
-            color: purpleColor,
-            type: false,
-            text: 'Notification',
-          ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            content(),
+            Header(
+              color: purpleColor,
+              type: false,
+              text: 'Notification',
+            ),
+          ],
+        ),
       ),
     );
   }

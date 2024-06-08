@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trackmate/shared/theme.dart';
 import 'package:trackmate/ui/widgets/custom_button.dart';
 import 'package:trackmate/ui/widgets/custom_form_field.dart';
 import 'package:trackmate/ui/widgets/header.dart';
+
+import '../../providers/auth_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -14,6 +17,23 @@ class ProfilePage extends StatelessWidget {
   final TextEditingController phoneController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    final navigator = Navigator.of(context);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    void handleLogout() async {
+      try {
+        if (await authProvider.signOut()) {
+          navigator.pushNamedAndRemoveUntil('/login', (route) => false);
+        }
+      } catch (e) {
+        scaffoldMessenger.showSnackBar(SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: redColor,
+        ));
+      }
+    }
+    
     Widget content() {
       return ListView(
         children: [
@@ -80,7 +100,9 @@ class ProfilePage extends StatelessWidget {
                     buttonColor: redColor,
                     buttonText: 'Log Out',
                     textStyle: whiteText,
-                    onPressed: () {}),
+                    onPressed: handleLogout,
+                    isLoading: authProvider.isLoading,
+                ),
               ],
             ),
           ),
@@ -89,15 +111,17 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          content(),
-          Header(
-            color: purpleColor,
-            type: false,
-            text: 'Profile',
-          ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            content(),
+            Header(
+              color: purpleColor,
+              type: false,
+              text: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }

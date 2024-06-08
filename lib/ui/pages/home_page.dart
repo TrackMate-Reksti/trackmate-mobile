@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trackmate/models/user_model.dart';
 import 'package:trackmate/shared/theme.dart';
 import 'package:trackmate/ui/pages/add_vehicle_page.dart';
 import 'package:trackmate/ui/pages/notification_page.dart';
 import 'package:trackmate/ui/pages/profile_page.dart';
-// import 'package:trackmate/ui/pages/report_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
     final Stream<DocumentSnapshot<Map<String, dynamic>>> usersStream =
         FirebaseFirestore.instance
             .collection('users')
-            .doc('ATc7ZHO6c7W8OwA58PpegtD3LGj2')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .snapshots();
 
     return Scaffold(
@@ -94,10 +94,9 @@ class HomePage extends StatelessWidget {
                                         builder: (context) => ProfilePage()),
                                   ),
                                   child: CircleAvatar(
-                                    backgroundColor: whiteColor,
                                     radius: 24,
-                                    backgroundImage:
-                                        const AssetImage('assets/logo.png'),
+                                    backgroundColor: whiteColor,
+                                    foregroundImage: NetworkImage('https://ui-avatars.com/api/?name=${user?.name}+&color=7F9CF5&background=EBF4FF'),
                                   ),
                                 )
                               ],
@@ -128,8 +127,8 @@ class HomePage extends StatelessWidget {
                               ),
                               textAlign: TextAlign.start,
                             ),
-                            const SizedBox(height: 20),
-                            Image.asset('assets/logo.png', height: 40),
+                            const SizedBox(height: 8),
+                            Image.asset('assets/logo.png', height: 80, fit: BoxFit.contain,),
                           ],
                         );
                       }),

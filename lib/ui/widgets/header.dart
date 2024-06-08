@@ -13,10 +13,10 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         height: type
             ? MediaQuery.of(context).size.height * 0.36
-            : MediaQuery.of(context).size.height * 0.12,
+            : MediaQuery.of(context).size.height * 0.09,
         decoration: BoxDecoration(
           color: color,
           borderRadius: const BorderRadius.only(
@@ -27,9 +27,12 @@ class Header extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.arrow_back_ios_outlined,
-              color: whiteColor,
+            GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Icon(
+                Icons.arrow_back_ios_outlined,
+                color: whiteColor,
+              ),
             ),
             Text(
               text,

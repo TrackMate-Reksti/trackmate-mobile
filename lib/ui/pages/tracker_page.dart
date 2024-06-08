@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trackmate/models/motocycle_model.dart';
@@ -17,10 +18,10 @@ class TrackerPage extends StatefulWidget {
 class _TrackerPageState extends State<TrackerPage> {
   final Completer<GoogleMapController?> _mapsController = Completer();
   final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc('ATc7ZHO6c7W8OwA58PpegtD3LGj2')
-          .snapshots();
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .snapshots();
   String selectedMotocycle = 'All';
   List<MotocycleModel> motoCycles = [];
   Set<Marker> _markers = {};
@@ -166,7 +167,7 @@ class _TrackerPageState extends State<TrackerPage> {
                               Text(
                                 '${user.name}\'s Motocyles Location',
                               ),
-                              Container(
+                              motoCycles.isEmpty ? Text('Not Have Motocycles', style: darkGreyText,) : Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 32,
                                 ),
