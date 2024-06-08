@@ -24,9 +24,6 @@ class _MainPageState extends State<MainPage> {
       currentIndex: currentIndex,
       onTap: (value) {
         setState(() {
-          if (value == 2) {
-            return;
-          }
           currentIndex = value;
         });
       },
@@ -65,11 +62,11 @@ class _MainPageState extends State<MainPage> {
           icon: Container(
             margin: const EdgeInsets.only(top: 8, bottom: 4),
             child: Icon(
-              Icons.person_outline_outlined,
+              Icons.report,
               color: currentIndex == 2 ? purpleColor : darkGreyColor,
             ),
           ),
-          label: 'Account',
+          label: 'Report',
         ),
       ],
     );
@@ -84,7 +81,7 @@ class _MainPageState extends State<MainPage> {
       case 2:
         return const ReportPage();
       default:
-        return const HomePage();
+        return const ReportPage();
     }
   }
 

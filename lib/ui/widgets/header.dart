@@ -13,6 +13,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
         height: type
             ? MediaQuery.of(context).size.height * 0.36
             : MediaQuery.of(context).size.height * 0.12,

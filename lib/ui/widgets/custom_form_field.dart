@@ -9,6 +9,7 @@ class CustomFormField extends StatefulWidget {
     required this.label,
     required this.validator,
     this.isPassword = false,
+    this.defaultValue = '',
   });
 
   final TextEditingController textController;
@@ -16,6 +17,7 @@ class CustomFormField extends StatefulWidget {
   final String label;
   final String validator;
   final bool isPassword;
+  final String defaultValue;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -23,6 +25,14 @@ class CustomFormField extends StatefulWidget {
 
 class _CustomFormFieldState extends State<CustomFormField> {
   bool isObscure = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.defaultValue != '') {
+      widget.textController.text = widget.defaultValue;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trackmate/models/user_model.dart';
 import 'package:trackmate/shared/theme.dart';
+import 'package:trackmate/ui/pages/add_vehicle_page.dart';
+import 'package:trackmate/ui/pages/notification_page.dart';
+import 'package:trackmate/ui/pages/profile_page.dart';
 // import 'package:trackmate/ui/pages/report_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -70,7 +73,12 @@ class HomePage extends StatelessWidget {
                                   smallSize: 0,
                                   largeSize: 24,
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const NotificationPage()),
+                                    ),
                                     icon: Icon(
                                       Icons.notifications_outlined,
                                       color: whiteColor,
@@ -79,11 +87,18 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                CircleAvatar(
-                                  backgroundColor: whiteColor,
-                                  radius: 24,
-                                  backgroundImage:
-                                      const AssetImage('assets/logo.png'),
+                                GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfilePage()),
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundColor: whiteColor,
+                                    radius: 24,
+                                    backgroundImage:
+                                        const AssetImage('assets/logo.png'),
+                                  ),
                                 )
                               ],
                             ),
@@ -145,7 +160,11 @@ class HomePage extends StatelessWidget {
                             blackText.copyWith(fontSize: 16, fontWeight: bold),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddVehiclePage()),
+                        ),
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(blackColor),
                           shape: WidgetStateProperty.all(

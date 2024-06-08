@@ -16,6 +16,7 @@ class ReportPage extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(top: 72),
             child: const Column(
               children: [
                 ReportCard(name: 'Kawasaki', plat: 'AB 2653 WX', status: 1),
