@@ -1,16 +1,28 @@
 # trackmate
 
-A new Flutter project.
+TrackMate presents an innovative solution by providing a real-time tracking system through a smartphone application, allowing users to monitor the location of their vehicles directly. TrackMate also offers real-time notifications in case of suspicious activity and assists the police in investigations and the recovery of stolen vehicles. Consequently, TrackMate becomes an effective tool for enhancing vehicle security and improving the efficiency of law enforcement in vehicle theft 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+First, install dependencies:
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter pub get
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Second, run the flutter project:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter run
+```
+
+Third, open in your mobile phone
+
+## Contributors
+
+Here are the contributors to this product:
+1. Auvarifqi Putra Diandra / 18221060
+2. Akmal Natha Abhirama / 18221082
+3. Raka Admiharfan Fatiha / 18221094
+4. Sultan Alta Alvaro Valencia / 18221110
+5. Ardhan Nur Urfan / 18221118
